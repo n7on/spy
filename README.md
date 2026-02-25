@@ -1,6 +1,6 @@
 # DllSpy
 
-[![CI](https://github.com/n7on/spy/actions/workflows/ci.yml/badge.svg)](https://github.com/n7on/spy/actions/workflows/ci.yml) [![NuGet Version](https://img.shields.io/nuget/v/DllSpy)](https://www.nuget.org/packages/DllSpy) [![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/DllSpy)](https://www.powershellgallery.com/packages/DllSpy) [![License](https://img.shields.io/github/license/n7on/spy)](https://github.com/n7on/spy/blob/main/LICENSE)
+[![CI](https://github.com/n7on/dllspy/actions/workflows/ci.yml/badge.svg)](https://github.com/n7on/dllspy/actions/workflows/ci.yml) [![NuGet Version](https://img.shields.io/nuget/v/DllSpy)](https://www.nuget.org/packages/DllSpy) [![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/DllSpy)](https://www.powershellgallery.com/packages/DllSpy) [![License](https://img.shields.io/github/license/n7on/dllspy)](https://github.com/n7on/dllspy/blob/main/LICENSE)
 
 Scans compiled .NET assemblies to discover input surfaces (HTTP endpoints, SignalR hubs, WCF services, gRPC services), check authorization configuration, and flag security issues — all without running the application.
 
@@ -26,26 +26,26 @@ Install-Module -Name DllSpy
 
 ```bash
 # List all surfaces
-spy ./MyApi.dll
+dllspy ./MyApi.dll
 
 # Scan for security vulnerabilities
-spy ./MyApi.dll -s
+dllspy ./MyApi.dll -s
 
 # Filter by surface type
-spy ./MyApi.dll -t HttpEndpoint
+dllspy ./MyApi.dll -t HttpEndpoint
 
 # Filter by HTTP method and class name
-spy ./MyApi.dll -m DELETE -c User*
+dllspy ./MyApi.dll -m DELETE -c User*
 
 # Only authenticated / anonymous surfaces
-spy ./MyApi.dll --auth
-spy ./MyApi.dll --anon
+dllspy ./MyApi.dll --auth
+dllspy ./MyApi.dll --anon
 
 # Scan with minimum severity
-spy ./MyApi.dll -s --min-severity High
+dllspy ./MyApi.dll -s --min-severity High
 
 # JSON output
-spy ./MyApi.dll --json
+dllspy ./MyApi.dll --json
 ```
 
 ### PowerShell
