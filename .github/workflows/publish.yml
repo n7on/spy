@@ -69,7 +69,11 @@ jobs:
           Write-Host "Module loaded successfully with $($commands.Count) cmdlets"
 
       - name: Pack CLI tool
-        run: dotnet pack src/DllSpy.Cli/DllSpy.Cli.csproj -c Release -o ./nupkg
+        run: dotnet pack src/DllSpy.Cli/DllSpy.Cli.csproj -c Release -o nupkg
+
+      - name: Verify package exists
+        shell: pwsh
+        run: Get-ChildItem -Path nupkg -Recurse
 
       - name: NuGet login
         uses: NuGet/login@v1
@@ -78,7 +82,8 @@ jobs:
           user: ${{ secrets.NUGET_USER }}
 
       - name: Publish to NuGet
-        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate
+        shell: pwsh
+        run: dotnet nuget push (Get-ChildItem nupkg/*.nupkg).FullName --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Publish to PowerShell Gallery
         shell: pwsh
