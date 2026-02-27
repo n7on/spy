@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.2.7] - 2026-02-27
+
 ### Added
 - **Azure Functions discovery** — detects `[FunctionName]` / `[Function]` methods with `[HttpTrigger]` parameters, extracts route, HTTP method, and `AuthorizationLevel`
 - `AzureFunction` surface type with `FunctionName`, `Route`, `HttpMethod`, `AuthorizationLevel` properties

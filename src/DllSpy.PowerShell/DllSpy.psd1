@@ -4,7 +4,7 @@
     RootModule = 'DllSpy.PowerShell.dll'
 
     # Version number of this module.
-    ModuleVersion = '0.2.6'
+    ModuleVersion = '0.2.7'
 
     # ID used to uniquely identify this module
     GUID = 'f7e8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
@@ -19,7 +19,7 @@
     Copyright = '(c) Anton Lindström. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description = 'Discovers and analyzes input surfaces (HTTP endpoints, SignalR hubs, WCF services, gRPC services, Razor Pages, Blazor components) in compiled .NET assemblies using reflection. Identifies security vulnerabilities, maps routes, and generates reports — all without running the application.'
+    Description = 'Discovers and analyzes input surfaces (HTTP endpoints, SignalR hubs, WCF services, gRPC services, Razor Pages, Blazor components, Azure Functions, OData endpoints) in compiled .NET assemblies using reflection. Identifies security vulnerabilities, maps routes, and generates reports — all without running the application.'
 
     # Minimum version of the PowerShell engine required by this module
     PowerShellVersion = '5.1'
@@ -55,7 +55,7 @@
     PrivateData = @{
         PSData = @{
             # Tags applied to this module for discoverability in online galleries
-            Tags = @('security', 'aspnet', 'webapi', 'signalr', 'wcf', 'grpc', 'razor', 'blazor', 'reflection', 'endpoints', 'vulnerability', 'audit')
+            Tags = @('security', 'aspnet', 'webapi', 'signalr', 'wcf', 'grpc', 'razor', 'blazor', 'azure-functions', 'odata', 'reflection', 'endpoints', 'vulnerability', 'audit')
 
             # A URL to the license for this module.
             LicenseUri = 'https://github.com/n7on/dllspy/blob/main/LICENSE'
@@ -64,7 +64,7 @@
             ProjectUri = 'https://github.com/n7on/dllspy'
 
             # Release notes for this module
-            ReleaseNotes = 'Fixed assembly resolution on macOS PowerShell 7 (single-file host). Added Pester tests.'
+            ReleaseNotes = 'Added Azure Functions and OData endpoint discovery. PowerShell HttpMethod filter now matches all surface types with HTTP methods.'
         }
     }
 

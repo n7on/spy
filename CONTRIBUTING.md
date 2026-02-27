@@ -67,6 +67,14 @@ DllSpy loads .NET assemblies via `System.Reflection` and scans for types that re
 
 **Blazor Routable Components** — Classes inheriting from `ComponentBase` that have one or more `[Route]` attributes. Each route template produces a separate surface. Properties with `[Parameter]` are included as parameters. Non-routable components (no `[Route]`) are excluded.
 
+**WCF Operations** — Interfaces with `[ServiceContract]` and their `[OperationContract]` methods. Implementing classes are resolved via `IsAssignableFrom`. Supports `[PrincipalPermission]` as an authorization attribute.
+
+**gRPC Operations** — Classes inheriting from generated gRPC base classes (detected via `BindService` method). Identifies all four streaming modes (Unary, ServerStreaming, ClientStreaming, BidiStreaming).
+
+**Azure Functions** — Methods with `[FunctionName]` or `[Function]` attributes that have an `[HttpTrigger]` parameter. Extracts the route, HTTP method(s), and `AuthorizationLevel` from the trigger attribute.
+
+**OData Endpoints** — Classes inheriting from `ODataController`. Routes are resolved from `[ODataRoutePrefix]`, falling back to `[Route]`, then `odata/{entitySet}` convention. Method routes check `[ODataRoute]`, then HTTP attribute templates. The `[EnableQuery]` attribute is tracked per method.
+
 ## Adding a New Discovery Type
 
 To add a new surface type (e.g. minimal APIs):
