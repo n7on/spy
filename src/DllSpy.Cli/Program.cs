@@ -83,8 +83,8 @@ namespace DllSpy.Cli
 
             if (methodFilter != null)
                 surfaces = surfaces.Where(s =>
-                    s is HttpEndpoint http &&
-                    string.Equals(http.HttpMethod, methodFilter, StringComparison.OrdinalIgnoreCase));
+                    (s is HttpEndpoint http && string.Equals(http.HttpMethod, methodFilter, StringComparison.OrdinalIgnoreCase)) ||
+                    (s is AzureFunction func && string.Equals(func.HttpMethod, methodFilter, StringComparison.OrdinalIgnoreCase)));
 
             if (classFilter != null)
             {

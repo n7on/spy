@@ -16,6 +16,8 @@ namespace DllSpy.Core.Contracts
         /// <summary>A handler on a Razor Page.</summary>
         RazorPage,
         /// <summary>A routable Blazor component.</summary>
-        BlazorComponent
+        BlazorComponent,
+        /// <summary>An Azure Functions HTTP-triggered function.</summary>
+        AzureFunction
     }
 }

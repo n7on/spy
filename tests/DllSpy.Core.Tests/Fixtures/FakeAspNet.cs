@@ -93,4 +93,42 @@ namespace DllSpy.Core.Tests.Fixtures
 
     [AttributeUsage(AttributeTargets.Property)]
     public class ParameterAttribute : Attribute { }
+
+    // Azure Functions attributes
+    [AttributeUsage(AttributeTargets.Method)]
+    public class FunctionNameAttribute : Attribute
+    {
+        public string Name { get; }
+        public FunctionNameAttribute(string name) { Name = name; }
+    }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public class FunctionAttribute : Attribute
+    {
+        public string Name { get; }
+        public FunctionAttribute(string name) { Name = name; }
+    }
+
+    public enum AuthorizationLevel
+    {
+        Anonymous = 0,
+        User = 1,
+        Function = 2,
+        System = 3,
+        Admin = 4
+    }
+
+    [AttributeUsage(AttributeTargets.Parameter)]
+    public class HttpTriggerAttribute : Attribute
+    {
+        public AuthorizationLevel AuthLevel { get; }
+        public string[] Methods { get; }
+        public string Route { get; set; }
+
+        public HttpTriggerAttribute(AuthorizationLevel authLevel, params string[] methods)
+        {
+            AuthLevel = authLevel;
+            Methods = methods;
+        }
+    }
 }

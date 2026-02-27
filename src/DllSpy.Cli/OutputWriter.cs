@@ -196,6 +196,7 @@ namespace DllSpy.Cli
         {
             HttpEndpoint http => http.HttpMethod,
             RazorPageHandler razor => razor.HttpMethod,
+            AzureFunction func => func.HttpMethod ?? "ANY",
             _ => string.Empty
         };
 
@@ -209,6 +210,7 @@ namespace DllSpy.Cli
             WcfOperation wcf => wcf.ContractName,
             GrpcOperation grpc => grpc.ServiceName,
             BlazorRoute blazor => blazor.RouteTemplate,
+            AzureFunction func => func.Route ?? func.FunctionName,
             _ => string.Empty
         };
 
@@ -220,6 +222,7 @@ namespace DllSpy.Cli
             SurfaceType.GrpcOperation => "gRPC",
             SurfaceType.RazorPage => "Razor",
             SurfaceType.BlazorComponent => "Blazor",
+            SurfaceType.AzureFunction => "Func",
             _ => surface.SurfaceType.ToString()
         };
 

@@ -227,6 +227,9 @@ namespace DllSpy.Core.Services
                     case BlazorRoute blazor:
                         issues.AddRange(AnalyzeBlazorRoute(blazor));
                         break;
+                    case AzureFunction func:
+                        issues.AddRange(AnalyzeAzureFunction(func));
+                        break;
                 }
             }
 
@@ -512,6 +515,49 @@ namespace DllSpy.Core.Services
                     SurfaceType = SurfaceType.BlazorComponent,
                     ClassName = route.ClassName,
                     MethodName = route.MethodName,
+                    Recommendation = "Consider adding Roles or Policy to the [Authorize] attribute to restrict access."
+                });
+            }
+
+            return issues;
+        }
+
+        private static List<SecurityIssue> AnalyzeAzureFunction(AzureFunction func)
+        {
+            var issues = new List<SecurityIssue>();
+
+            // HIGH: Anonymous auth level and no ASP.NET Core authorization
+            if (string.Equals(func.AuthorizationLevel, "Anonymous", StringComparison.OrdinalIgnoreCase)
+                && !func.RequiresAuthorization && !func.AllowAnonymous)
+            {
+                issues.Add(new SecurityIssue
+                {
+                    Title = "Unauthenticated Azure Function",
+                    Description = $"The Azure Function '{func.FunctionName}' at '{func.Route ?? func.FunctionName}' " +
+                                  $"uses AuthorizationLevel.Anonymous and has no [Authorize] attribute. Anyone can invoke it.",
+                    Severity = SecuritySeverity.High,
+                    SurfaceRoute = func.DisplayRoute,
+                    SurfaceType = SurfaceType.AzureFunction,
+                    ClassName = func.ClassName,
+                    MethodName = func.MethodName,
+                    Recommendation = "Set a higher AuthorizationLevel or add [Authorize] attribute."
+                });
+            }
+
+            // LOW: Has auth but no roles/policies
+            if (func.RequiresAuthorization && !func.AllowAnonymous &&
+                func.Roles.Count == 0 && func.Policies.Count == 0)
+            {
+                issues.Add(new SecurityIssue
+                {
+                    Title = "Authorize without role or policy restriction",
+                    Description = $"The Azure Function '{func.FunctionName}' at '{func.Route ?? func.FunctionName}' " +
+                                  $"requires authentication but does not specify roles or policies. Any authenticated caller can invoke it.",
+                    Severity = SecuritySeverity.Low,
+                    SurfaceRoute = func.DisplayRoute,
+                    SurfaceType = SurfaceType.AzureFunction,
+                    ClassName = func.ClassName,
+                    MethodName = func.MethodName,
                     Recommendation = "Consider adding Roles or Policy to the [Authorize] attribute to restrict access."
                 });
             }

@@ -28,13 +28,14 @@ namespace DllSpy.Core.Tests.Services
             Assert.Contains(_report.Surfaces, s => s.SurfaceType == SurfaceType.GrpcOperation);
             Assert.Contains(_report.Surfaces, s => s.SurfaceType == SurfaceType.RazorPage);
             Assert.Contains(_report.Surfaces, s => s.SurfaceType == SurfaceType.BlazorComponent);
+            Assert.Contains(_report.Surfaces, s => s.SurfaceType == SurfaceType.AzureFunction);
         }
 
         [Fact]
         public void TotalSurfaces_IsCorrect()
         {
-            // 12 HTTP + 5 SignalR + 6 WCF + 6 gRPC + 11 Razor + 6 Blazor = 46
-            Assert.Equal(46, _report.TotalSurfaces);
+            // 12 HTTP + 5 SignalR + 6 WCF + 6 gRPC + 11 Razor + 6 Blazor + 8 AzureFunc = 54
+            Assert.Equal(54, _report.TotalSurfaces);
         }
 
         [Fact]
@@ -55,7 +56,8 @@ namespace DllSpy.Core.Tests.Services
             // Users, Admin, Public, Plain, ChatHub, NotificationHub, LifecycleHub, OrderService, SecureService, IAuditService, GreeterService, OrderGrpcService
             // + IndexModel, ContactModel, DetailsModel, EditModel, DashboardModel, LoginModel
             // + Counter, WeatherForecast, AdminSettings, UserProfile, PublicInfo
-            Assert.Equal(23, _report.TotalClasses);
+            // + ProductFunctions, OrderFunctions, NotificationFunctions, HealthFunctions
+            Assert.Equal(27, _report.TotalClasses);
         }
 
         [Fact]
@@ -65,14 +67,15 @@ namespace DllSpy.Core.Tests.Services
             // gRPC: OrderGrpcService.GetOrder, PlaceOrder, StreamOrders, Chat
             // Razor: DashboardModel.OnGet, DashboardModel.OnPostExportAsync, LoginModel.OnPostAsync
             // Blazor: AdminSettings, UserProfile
-            Assert.Equal(17, _report.AuthenticatedSurfaces);
+            // AzureFunc: GetProductById, GetOrders, PlaceOrder, SendNotification
+            Assert.Equal(21, _report.AuthenticatedSurfaces);
         }
 
         [Fact]
         public void AnonymousSurfaces_CountIsCorrect()
         {
-            // AllowAnonymous or !RequiresAuthorization = 29
-            Assert.Equal(29, _report.AnonymousSurfaces);
+            // AllowAnonymous or !RequiresAuthorization = 33
+            Assert.Equal(33, _report.AnonymousSurfaces);
         }
 
         [Fact]
@@ -85,7 +88,8 @@ namespace DllSpy.Core.Tests.Services
             // gRPC: GreeterService.SayHello, GreeterService.SayHellos
             // Razor: ContactModel.OnPostAsync, EditModel.OnPostAsync, EditModel.OnPostDeleteAsync
             // Blazor: Counter, WeatherForecast(/weather), WeatherForecast(/forecast)
-            Assert.Equal(17, highIssues.Count);
+            // AzureFunc: GetProducts, CreateProduct, HealthCheck
+            Assert.Equal(20, highIssues.Count);
         }
 
         [Fact]
@@ -105,14 +109,15 @@ namespace DllSpy.Core.Tests.Services
             // gRPC: OrderGrpcService.GetOrder, OrderGrpcService.StreamOrders, OrderGrpcService.Chat
             // Razor: LoginModel.OnPostAsync
             // Blazor: UserProfile
-            Assert.Equal(8, lowIssues.Count);
+            // AzureFunc: GetProductById, SendNotification
+            Assert.Equal(10, lowIssues.Count);
         }
 
         [Fact]
         public void TotalSecurityIssues_IsCorrect()
         {
-            // 17 HIGH + 8 MEDIUM + 8 LOW = 33
-            Assert.Equal(33, _report.TotalSecurityIssues);
+            // 20 HIGH + 8 MEDIUM + 10 LOW = 38
+            Assert.Equal(38, _report.TotalSecurityIssues);
         }
 
         [Fact]
