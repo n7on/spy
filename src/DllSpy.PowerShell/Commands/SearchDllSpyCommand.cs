@@ -53,6 +53,12 @@ namespace DllSpy.PowerShell.Commands
         public SwitchParameter AllowAnonymous { get; set; }
 
         /// <summary>
+        /// Gets or sets whether to only include host (runnable) assemblies, skipping class libraries.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter HostOnly { get; set; }
+
+        /// <summary>
         /// Gets or sets the class name filter. Supports wildcards.
         /// </summary>
         [Parameter]
@@ -97,6 +103,10 @@ namespace DllSpy.PowerShell.Commands
             WriteVerbose($"Scanning assembly: {assemblyPath}");
 
             var report = _scanner.ScanAssembly(assemblyPath);
+
+            if (HostOnly.IsPresent && !report.IsHostAssembly)
+                return;
+
             var surfaces = report.Surfaces.AsEnumerable();
 
             if (Type.HasValue)

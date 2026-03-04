@@ -63,8 +63,12 @@ namespace DllSpy.Core.Services
                     return EmptyReport(fullPath);
                 }
 
+                var isHost = assembly.EntryPoint != null
+                    || File.Exists(Path.ChangeExtension(fullPath, ".runtimeconfig.json"));
+
                 var report = ScanAssembly(assembly);
                 report.AssemblyPath = fullPath;
+                report.IsHostAssembly = isHost;
                 return report;
             }
             finally

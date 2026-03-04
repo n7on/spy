@@ -34,6 +34,12 @@ namespace DllSpy.PowerShell.Commands
         public SecuritySeverity MinimumSeverity { get; set; } = SecuritySeverity.Info;
 
         /// <summary>
+        /// Gets or sets whether to only include host (runnable) assemblies, skipping class libraries.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter HostOnly { get; set; }
+
+        /// <summary>
         /// Gets or sets the surface type filter for issues.
         /// </summary>
         [Parameter]
@@ -77,6 +83,10 @@ namespace DllSpy.PowerShell.Commands
             WriteVerbose($"Analyzing security for: {assemblyPath}");
 
             var report = _scanner.ScanAssembly(assemblyPath);
+
+            if (HostOnly.IsPresent && !report.IsHostAssembly)
+                return;
+
             var issues = report.SecurityIssues.AsEnumerable();
 
             if (Type.HasValue)

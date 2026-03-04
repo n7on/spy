@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.2.8] - 2026-03-04
+
+### Added
+- `IsHostAssembly` property on `AssemblyReport` — detects whether a scanned assembly is a runnable host (has an entry point or `.runtimeconfig.json` sidecar) vs. a class library
+- `-HostOnly` switch on `Search-DllSpy` and `Test-DllSpy` — silently skips non-host assemblies
+- `--host-only` option on CLI — silently skips non-host assemblies
+
 ## [0.2.7] - 2026-02-27
 
 ### Added

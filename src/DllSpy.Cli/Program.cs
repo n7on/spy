@@ -18,12 +18,13 @@ namespace DllSpy.Cli
             var cls = new Option<string>("--class", "-c") { Description = "Filter by class name (supports * wildcards)" };
             var auth = new Option<bool>("--auth") { Description = "Only show surfaces requiring authorization" };
             var anon = new Option<bool>("--anon") { Description = "Only show surfaces allowing anonymous access" };
+            var hostOnly = new Option<bool>("--host-only") { Description = "Only scan host (runnable) assemblies, skip class libraries" };
             var minSev = new Option<SecuritySeverity>("--min-severity") { Description = "Minimum severity for scan mode", DefaultValueFactory = _ => SecuritySeverity.Info };
             var output = new Option<OutputFormat?>("--output", "-o") { Description = "Output format: table, tsv, json (default: table for TTY, tsv for piped)" };
 
             var root = new RootCommand("Discover input surfaces and security issues in .NET assemblies")
             {
-                path, scan, type, method, cls, auth, anon, minSev, output
+                path, scan, type, method, cls, auth, anon, hostOnly, minSev, output
             };
 
             root.SetAction(r =>
@@ -31,6 +32,9 @@ namespace DllSpy.Cli
                 try
                 {
                     var report = ScannerFactory.Create().ScanAssembly(r.GetValue(path));
+
+                    if (r.GetValue(hostOnly) && !report.IsHostAssembly)
+                        return 0;
 
                     var fmt = r.GetValue(output);
 

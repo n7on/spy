@@ -15,6 +15,9 @@ namespace DllSpy.Core.Contracts
         /// <summary>Gets or sets the assembly name.</summary>
         public string AssemblyName { get; set; }
 
+        /// <summary>Gets or sets whether this assembly is a host (runnable application) rather than a class library.</summary>
+        public bool IsHostAssembly { get; set; }
+
         /// <summary>Gets or sets the timestamp of the scan.</summary>
         public DateTime ScanTimestamp { get; set; }
 
